@@ -1,29 +1,46 @@
-import React from 'react';
+import React,{useEffect, Component} from 'react';
 import PropTypes from "prop-types";
 import Header from "../Header/index"
 import '../UserForm/UserForm.css';
 //import UserForm from "../components/UserForm/UserForm.js"
 
-const TodolistForm = ({OnClick,todos, usererror}) => {
+const TodolistForm = ({OnClick,todos, usererror,todoPriority,todoStatus}) => {
     
      const [todoname, setTodonameState] = React.useState("");
      const [todotime, setTodotimeState] = React.useState("");
     // const [priorityorder, setPriorityorder] = React.useState("");
-    // const [statusorder, Setstatusorder] = React.useState("");
+    
+    const [priorityorder,setPriorityorder] = React.useState("");
+    const [statusorder, setStatusorder] = React.useState("");
 
      const handleSubmit = (event) => {
 
         var bodyFormData = {
             "todoname" : todoname,
             "todotime" : todotime,
-            "priorityorder" : 1,
-            "statusorder" : 1,
+            "priorityorder" : priorityorder,
+            "statusorder" : statusorder,
             "userid" : 211
         }
         debugger;
-        OnClick(bodyFormData);
+        
+            OnClick(bodyFormData);
+        
+        
         event.preventDefault();
      }
+
+     
+     {/*
+     useEffect(() => {
+        // {todoPriority.map((user)=>
+        //     <h2 key={user.id}>{user.id}</h2>)}
+        debugger;
+        priorityItems = todoPriority.map((priority) =>
+        <option key={priority.name}>{priority.name}</option>
+        );
+       }, []);
+    */}
 
     return (
         <div>
@@ -54,22 +71,50 @@ const TodolistForm = ({OnClick,todos, usererror}) => {
                     </label>
                     <label>
                         Priority:  
-                        <select className="form-row-todolist-select">
-                            <option>High</option>
+                        <select className="form-row-todolist-select"
+                            value={priorityorder}
+                            onChange={p => setPriorityorder(p.target.value)}
+                            required>
+                                <option
+                                value=""
+                                >select priority</option>
+                            {todoPriority.map((priority) =>
+                                <option
+                                    value={priority.priorityorder}>
+                                    {priority.priorityname}
+                                </option>
+                            )}
+                            {/* {priorityItems} */}
+                            {/* <option>High</option>
                             <option>Medium</option>
-                            <option>Low</option>
+                            <option>Low</option> */}
                         </select>
                     </label>
                     <label>
                         Status:  
-                        <select className="form-row-todolist-select">
-                            <option>Complete</option>
-                            <option>InComplete</option>
+                        <select className="form-row-todolist-select"
+                            value={statusorder}
+                            onChange={s => setStatusorder(s.target.value)}
+                            required>
+                            <option
+                            value=""
+                            >select status</option>
+                            {todoStatus.map((status) =>
+                            <option
+                            value={status.statusorder}>
+                            {status.statusname}
+                            </option>
+                            )}
                         </select>
                     </label>
                     <input type="submit" value="Submit"/>
             </div> 
-            <div>{todos.todoname}</div>
+            {/* <div>
+            <ul>
+            {todoStatus.map((user)=>
+            <h2 key={user.id}>{user.statusorder}</h2>)}
+            </ul>
+            </div> */}
             </form>
         </div>
 
@@ -79,7 +124,9 @@ const TodolistForm = ({OnClick,todos, usererror}) => {
 TodolistForm.propTypes = {
     OnClick: PropTypes.func.isRequired,
     todos: PropTypes.any.isRequired,
-    usererror: PropTypes.any.isRequired
+    usererror: PropTypes.any.isRequired,
+    todoPriority: PropTypes.any.isRequired,
+    todoStatus: PropTypes.any.isRequired
 };
 
 export default TodolistForm;

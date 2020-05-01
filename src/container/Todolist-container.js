@@ -1,11 +1,18 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import TodolistForm from "../components/Todolist/TodolistForm";
-import {loadUsers, postTodolistXYZ} from "../actions"
+import {postTodolist,getPriority,getStatus} from "../actions"
 
-const TodolistFormCon = ({postTodolistXYZ, loadUsers, todos, usererror}) => {
+const TodolistFormCon = ({postTodolist, 
+                            todos, 
+                            usererror,
+                            todoPriority, 
+                            getPriority,
+                            getStatus,
+                            todoStatus}) => {
 
     useEffect(() => {
+       // debugger;
         //fetchTodo();
         //debugger;
         /*alert("cxcxcx"+JSON.stringify(user));
@@ -23,23 +30,35 @@ const TodolistFormCon = ({postTodolistXYZ, loadUsers, todos, usererror}) => {
         }
         //postTodolistXYZ(bodyFormData);
         //loadUsers(bodyFormData);
+        getPriority();
+        getStatus();
+
       }, []);
 
     return (
+        
         <div>
         <div>pppppppppppp</div>
-        <TodolistForm OnClick={postTodolistXYZ} todos={todos} usererror={usererror}>
-    </TodolistForm>
+        
+         <TodolistForm 
+            OnClick={postTodolist} 
+            todos={todos} 
+            usererror={usererror} 
+            todoPriority = {todoPriority} 
+            todoStatus = {todoStatus}>
+        </TodolistForm> 
     </div>
     );
 };
 
-const mapStateToProps=({todos, usererror})=> ({
-        todos,usererror
+const mapStateToProps=({todos, usererror,todoPriority,todoStatus})=> ({
+        todos,usererror,todoPriority,todoStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    postTodolistXYZ: (payload) => dispatch(postTodolistXYZ(payload)),
+    postTodolist: (payload) => dispatch(postTodolist(payload)),
+    getPriority: (payload) => dispatch(getPriority(payload)),
+    getStatus: (payload) => dispatch(getStatus(payload)),
 })
 
 export default connect (mapStateToProps,mapDispatchToProps)(TodolistFormCon);
